@@ -25,4 +25,4 @@ Process Filter Driver is a kernel-mode driver that filters process/thread creati
 
 Registry Filter Driver is a kernel-mode driver that filters registry calls, it provides you an easy way to develop Windows application for registry monitoring and protection, track the registry change and prevent the registry from being changed by unauthorized processes or users. With the EaseFilter Registry Filter Driver, it enables your application to protect Windows core registry keys and values and to prevent potentially damaging system configuration changes, besides operating system files. By registering a RegistryCallback routine in the registry filter driver, it can receive notifications of each registry operation before the configuration manager processes the operation.
 
-[Click here to understand more about EaseFilter Comprehensive File Security SDK](#https://www.easefilter.com/Forums_Files/Comprehensive-file-security-sdk.htm)
+[Click here to understand more about EaseFilter Comprehensive File Security SDK](https://www.easefilter.com/Forums_Files/Comprehensive-file-security-sdk.htm)
