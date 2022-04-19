@@ -1332,6 +1332,35 @@ namespace EaseFilter.FilterControl
         [MarshalAs(UnmanagedType.LPWStr)]string processName);
 
         /// <summary>
+        /// Get sha256 hash of the file, you need to allocate the 32 bytes array to get the sha256 hash.
+        /// hashBytesLength is the input byte array length, and the outpou lenght of the hash.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="hashBytes"></param>
+        /// <param name="hashBytesLength"></param>
+        /// <returns></returns>
+        [DllImport("FilterAPI.dll", SetLastError = true)]
+        public static extern bool Sha256HashFile(
+            [MarshalAs(UnmanagedType.LPWStr)]string fileName,
+            byte[] hashBytes,
+            ref uint hashBytesLength);
+
+        /// <summary>
+        /// Add the access rights to the process which has the same sha256 hash as the setting.
+        /// </summary>
+        /// <param name="filterMask">The filter rule file filter mask.</param>
+        /// <param name="imageSha256">the sha256 hash of the executable binary file.</param>
+        /// <param name="hashLength">the length of the sha256 hash, by default is 32.</param>
+        /// <param name="accessFlags">the access flags for the setting process.</param>
+        /// <returns>return true if it is succeeded.</returns>
+        [DllImport("FilterAPI.dll", SetLastError = true)]
+        public static extern bool AddTrustedProcessToFilterRule(
+        [MarshalAs(UnmanagedType.LPWStr)]string filterMask,
+        byte[] imageSha256,
+        uint hashLength,
+        uint accessFlags);
+
+        /// <summary>
         /// Set the access control flags to process with the processId
         /// </summary>
         /// <param name="filterMask">the filter rule file filter mask</param>
@@ -2106,7 +2135,8 @@ namespace EaseFilter.FilterControl
              [MarshalAs(UnmanagedType.LPWStr)]string fileName,
              ref uint ivLength,
              IntPtr iv,
-             ref uint aesFlag);        
+             ref uint aesFlag);
+
 
         public static string GetLastErrorMessage()
         {
