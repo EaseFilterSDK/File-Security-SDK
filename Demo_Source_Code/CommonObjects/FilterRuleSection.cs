@@ -587,7 +587,7 @@ namespace EaseFilter.CommonObjects
                         {
                             string userName = userRight.Substring(0, userRight.IndexOf('!'));
                             uint accessFlags = uint.Parse(userRight.Substring(userRight.IndexOf('!') + 1));
-                            fileFilter.ProcessNameAccessRightList.Add(userName, accessFlags);
+                            fileFilter.userAccessRightList.Add(userName, accessFlags);
                         }
                     }
                 }

@@ -186,9 +186,6 @@ namespace EaseFilter.CommonObjects
 
         public static void Stop()
         {
-            //for testing purpose to check the lastest version.
-            WebFormServices.GetUpdatedInfo();
-
             isRunning = false;
             stopEvent.Set();
             EventManager.Stop();           
