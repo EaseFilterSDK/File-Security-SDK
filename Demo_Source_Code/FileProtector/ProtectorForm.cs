@@ -37,7 +37,7 @@ namespace FileProtector
     {
         //Purchase a license key with the link: http://www.easefilter.com/Order.htm
         //Email us to request a trial key: info@easefilter.com //free email is not accepted.
-        string licenseKey = "27AE4-2EC94-6E533-C186E-C3EC0-50CD9";
+        string licenseKey = "****************************************************";
 
         MonitorEventHandler monitorEventHandler = null;
         ControlEventHandler controlEventHandler = null;
