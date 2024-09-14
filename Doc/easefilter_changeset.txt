@@ -309,6 +309,15 @@
 	1. Fixed registry filter bug when the process name filter mask is in format "*xxx*".
 5.3.4.1 ( 2024-02-18)
 	1. Added the support to detect the FileCopy request for Windows 11 22H2 or later OS.
+5.4.1.1 ( 2024-04-08)
+	1. Added the encryption support to the network share.
+5.4.2.1 ( 2024-05-15)
+	1. Fixed registry filter driver key name filter mask issue.
+5.4.3.1 ( 2024-06-09)
+	1. Fixed a CD-ROM display issue when the filter driver service is disconnected.
+5.4.4.3 ( 2024-09-11)
+	1. Fixed filter rule deletion race condition issue.
+
 
 
 
