@@ -108,45 +108,51 @@ namespace AutoEncryptDemo
             //disable the decryption right, read the raw encrypted data for all except the authorized processes or users.
             fileFilter.EnableReadEncryptedData = false;
 
-            if (textBox_AuthorizedProcessesForEncryptFolder.Text.Trim().Length == 0)
+            if (textBox_AuthorizedProcessesForEncryptFolder.Text.Trim().Length == 0 || textBox_AuthorizedProcessesForEncryptFolder.Text.Trim().Equals("*"))
             {
                 authorizedProcessesForEncryptFolder = "*";
-            }
 
-            string[] processNames = authorizedProcessesForEncryptFolder.Split(new char[] { ';' });
-            if (processNames.Length > 0)
-            {
-                foreach (string processName in processNames)
-                {
-                    if (processName.Trim().Length > 0)
-                    {
-                        //authorized the process with the read encrypted data right.
-                        fileFilter.ProcessNameAccessRightList.Add(processName, FilterAPI.ALLOW_MAX_RIGHT_ACCESS);
-                    }
-                }
+                //allow everyone to read the encrypted data by default, except you remove it from the process access right.
+                fileFilter.EnableReadEncryptedData = true;
             }
-
-            if (!string.IsNullOrEmpty(authorizedUsersForEncryptFolder) && !authorizedUsersForEncryptFolder.Equals("*"))
+            else
             {
-                string[] userNames = authorizedUsersForEncryptFolder.Split(new char[] { ';' });
-                if (userNames.Length > 0)
+                string[] processNames = authorizedProcessesForEncryptFolder.Split(new char[] { ';' });
+
+                if (processNames.Length > 0)
                 {
-                    foreach (string userName in userNames)
+                    foreach (string processName in processNames)
                     {
-                        if (userName.Trim().Length > 0)
+                        if (processName.Trim().Length > 0)
                         {
-                            //authorized the user with the read encrypted data right.
-                            fileFilter.userAccessRightList.Add(userName, FilterAPI.ALLOW_MAX_RIGHT_ACCESS);
+                            //authorized the process with the read encrypted data right.
+                            fileFilter.ProcessNameAccessRightList.Add(processName, FilterAPI.ALLOW_MAX_RIGHT_ACCESS);
                         }
                     }
                 }
 
-                if (fileFilter.userAccessRightList.Count > 0)
+                if (!string.IsNullOrEmpty(authorizedUsersForEncryptFolder) && !authorizedUsersForEncryptFolder.Equals("*"))
                 {
-                    //set black list for all other users except the white list users.
-                    uint accessFlag = FilterAPI.ALLOW_MAX_RIGHT_ACCESS & ~(uint)FilterAPI.AccessFlag.ALLOW_READ_ENCRYPTED_FILES;
-                    //disable the decryption right, read the raw encrypted data for all except the authorized users.
-                    fileFilter.userAccessRightList.Add("*", accessFlag);
+                    string[] userNames = authorizedUsersForEncryptFolder.Split(new char[] { ';' });
+                    if (userNames.Length > 0)
+                    {
+                        foreach (string userName in userNames)
+                        {
+                            if (userName.Trim().Length > 0)
+                            {
+                                //authorized the user with the read encrypted data right.
+                                fileFilter.userAccessRightList.Add(userName, FilterAPI.ALLOW_MAX_RIGHT_ACCESS);
+                            }
+                        }
+                    }
+
+                    if (fileFilter.userAccessRightList.Count > 0)
+                    {
+                        //set black list for all other users except the white list users.
+                        uint accessFlag = FilterAPI.ALLOW_MAX_RIGHT_ACCESS & ~(uint)FilterAPI.AccessFlag.ALLOW_READ_ENCRYPTED_FILES;
+                        //disable the decryption right, read the raw encrypted data for all except the authorized users.
+                        fileFilter.userAccessRightList.Add("*", accessFlag);
+                    }
                 }
             }
 
@@ -184,10 +190,10 @@ namespace AutoEncryptDemo
             //disable the decyrption right, read the raw encrypted data for all except the authorized processes or users.
             decryptFileFilter.EnableReadEncryptedData = false;
 
-            processNames = authorizedProcessesForDecryptFolder.Split(new char[] { ';' });
-            if (processNames.Length > 0)
+            string[] processNamesToDecrypt = authorizedProcessesForDecryptFolder.Split(new char[] { ';' });
+            if (processNamesToDecrypt.Length > 0)
             {
-                foreach (string processName in processNames)
+                foreach (string processName in processNamesToDecrypt)
                 {
                     if (processName.Trim().Length > 0)
                     {
@@ -345,6 +351,14 @@ namespace AutoEncryptDemo
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.easefilter.com/kb/auto-file-drm-encryption-tool.htm");
+        }
+
+        private void applyTrialKeyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WebFormServices webForm = new WebFormServices();
+            webForm.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+
+            System.Threading.Tasks.Task.Factory.StartNew(() => { webForm.ShowDialog(); });
         }
 
         private void getTagDataOfEncryptedFileToolStripMenuItem_Click(object sender, EventArgs e)

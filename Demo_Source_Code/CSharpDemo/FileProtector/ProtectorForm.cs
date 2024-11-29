@@ -232,12 +232,14 @@ namespace FileProtector
                     return;
                 }
 
+                EventManager.WriteMessage(102, "StartFilter", EventLevel.Information, "Start filter service succeeded.");
+
                 SendSettingsToFilter();
 
                 toolStripButton_StartFilter.Enabled = false;
                 toolStripButton_Stop.Enabled = true;
 
-                EventManager.WriteMessage(102, "StartFilter", EventLevel.Information, "Start filter service succeeded.");
+                EventManager.WriteMessage(102, "SendSettingsToFilter", EventLevel.Information, "SendSettingsToFilter succeeded.");
             }
             catch (Exception ex)
             {
@@ -368,5 +370,13 @@ namespace FileProtector
             System.Diagnostics.Process.Start("https://blog.easefilter.com/file-protector-demo-step-by-step/");
         }
 
+        private void toolStripButton_ApplyTrialKey_Click(object sender, EventArgs e)
+        {
+            WebFormServices webForm = new WebFormServices();
+            webForm.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+
+            System.Threading.Tasks.Task.Factory.StartNew(() => { webForm.ShowDialog(); });
+        }
+       
     }
 }

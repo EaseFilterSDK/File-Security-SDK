@@ -168,7 +168,7 @@ FilterControl::SendFileFilterRuleToFilter(FileFilterRule* fileFilter)
         }
     }
 
-	//only the I/O from the inlcuded processes can be managed by this filter rule, all other processes will pass through.
+	//only the I/O from the included processes can be managed by this filter rule, all other processes will pass through.
 	for(std::vector<std::wstring>::iterator includeProcessName = fileFilter->IncludeProcessNameList.begin(); 
 		includeProcessName != fileFilter->IncludeProcessNameList.end(); ++includeProcessName) 
     {
@@ -182,7 +182,7 @@ FilterControl::SendFileFilterRuleToFilter(FileFilterRule* fileFilter)
         }
     }
 
-	//all the I/O from the excluded processes will pass through, won't be intercepted by filte driver.
+	//all the I/O from the excluded processes will pass through, won't be intercepted by filter driver.
 	for(std::vector<std::wstring>::iterator excludeProcessName = fileFilter->ExcludeProcessNameList.begin(); 
 		excludeProcessName != fileFilter->ExcludeProcessNameList.end(); ++excludeProcessName) 
     {
@@ -196,7 +196,7 @@ FilterControl::SendFileFilterRuleToFilter(FileFilterRule* fileFilter)
         }
     }
 
-	//only the I/O from the inlcuded processes can be managed by this filter rule, all other processes will pass through.
+	//only the I/O from the included processes can be managed by this filter rule, all other processes will pass through.
 	for(std::vector<ULONG>::iterator includeProcessId = fileFilter->IncludeProcessIdList.begin(); 
 		includeProcessId != fileFilter->IncludeProcessIdList.end(); ++includeProcessId) 
     {
@@ -207,7 +207,7 @@ FilterControl::SendFileFilterRuleToFilter(FileFilterRule* fileFilter)
         }
     }
 
-	//all the I/O from the excluded processes will pass through, won't be intercepted by filte driver.
+	//all the I/O from the excluded processes will pass through, won't be intercepted by filter driver.
 	for(std::vector<ULONG>::iterator excludeProcessId = fileFilter->ExcludeProcessIdList.begin(); 
 		excludeProcessId != fileFilter->ExcludeProcessIdList.end(); ++excludeProcessId) 
     {
@@ -218,7 +218,7 @@ FilterControl::SendFileFilterRuleToFilter(FileFilterRule* fileFilter)
         }
     }
 
-	//only the I/O from the inlcuded users can be managed by this filter rule, all other users will pass through.
+	//only the I/O from the included users can be managed by this filter rule, all other users will pass through.
 	for(std::vector<std::wstring>::iterator includeUserName = fileFilter->IncludeUserNameList.begin(); 
 		includeUserName != fileFilter->IncludeUserNameList.end(); ++includeUserName) 
     {
@@ -232,7 +232,7 @@ FilterControl::SendFileFilterRuleToFilter(FileFilterRule* fileFilter)
         }
     }   
 
-	//all the I/O from the excluded user will pass through, won't be intercepted by filte driver.
+	//all the I/O from the excluded user will pass through, won't be intercepted by filter driver.
 	for(std::vector<std::wstring>::iterator excludeUserName = fileFilter->ExcludeUserNameList.begin(); 
 		excludeUserName != fileFilter->ExcludeUserNameList.end(); ++excludeUserName) 
     {
@@ -382,6 +382,33 @@ FilterControl::SendProcessFilterRuleToFilter(ProcessFilterRule* processFilter)
 			++it;
 		}
 
+        for (std::vector<std::wstring>::iterator excludeProcessName = processFilter->ExcludeProcessNameList.begin();
+            excludeProcessName != processFilter->ExcludeProcessNameList.end(); ++excludeProcessName)
+        {
+            if (excludeProcessName->length() > 0)
+            {
+                if (!AddExcludeProcessNameToProcessFilterRule(&processFilter->ProcessNameFilterMask[0], &(*excludeProcessName)[0]))
+                {
+                    PrintLastErrorMessage(L"AddExcludeProcessNameToProcessFilterRule failed.");
+                    return false;
+                }
+            }
+        }
+
+
+        for (std::vector<std::wstring>::iterator excludeUserName = processFilter->ExcludeUserNameList.begin();
+            excludeUserName != processFilter->ExcludeUserNameList.end(); ++excludeUserName)
+        {
+            if (excludeUserName->length() > 0)
+            {
+                if (!AddExcludeUserNameToProcessFilterRule(&processFilter->ProcessNameFilterMask[0], &(*excludeUserName)[0]))
+                {
+                    PrintLastErrorMessage(L"AddExcludeUserNameToProcessFilterRule failed.");
+                    return false;
+                }
+            }
+        }
+
 	}
 
 	return true;
@@ -397,6 +424,47 @@ FilterControl::SendRegistryFilterRuleToFilter(RegistryFilterRule* registryFilter
 		PrintLastErrorMessage(L"AddRegistryFilterRule failed.");
 		return false;
 	}
+
+    for (std::vector<std::wstring>::iterator excludeProcessName = registryFilter->ExcludeProcessNameList.begin();
+        excludeProcessName != registryFilter->ExcludeProcessNameList.end(); ++excludeProcessName)
+    {
+        if (excludeProcessName->length() > 0)
+        {
+            if (!AddExcludeProcessNameToRegistryFilterRule(&registryFilter->ProcessNameFilterMask[0], &registryFilter->RegistryKeyNameFilterMask[0], &(*excludeProcessName)[0]))
+            {
+                PrintLastErrorMessage(L"AddExcludeProcessNameToProcessFilterRule failed.");
+                return false;
+            }
+        }
+    }
+
+
+    for (std::vector<std::wstring>::iterator excludeUserName = registryFilter->ExcludeUserNameList.begin();
+        excludeUserName != registryFilter->ExcludeUserNameList.end(); ++excludeUserName)
+    {
+        if (excludeUserName->length() > 0)
+        {
+            if (!AddExcludeUserNameToRegistryFilterRule(&registryFilter->ProcessNameFilterMask[0], &registryFilter->RegistryKeyNameFilterMask[0], &(*excludeUserName)[0]))
+            {
+                PrintLastErrorMessage(L"AddExcludeUserNameToProcessFilterRule failed.");
+                return false;
+            }
+        }
+    }
+
+    for (std::vector<std::wstring>::iterator excludeKeyName = registryFilter->ExcludeKeyNameList.begin();
+        excludeKeyName != registryFilter->ExcludeKeyNameList.end(); ++excludeKeyName)
+    {
+        if (excludeKeyName->length() > 0)
+        {
+            if (!AddExcludeKeyNameToRegistryFilterRule(&registryFilter->ProcessNameFilterMask[0], &registryFilter->RegistryKeyNameFilterMask[0], &(*excludeKeyName)[0]))
+            {
+                PrintLastErrorMessage(L"AddExcludeKeyNameToRegistryFilterRule failed.");
+                return false;
+            }
+        }
+    }
+
 
 	return true;
 }

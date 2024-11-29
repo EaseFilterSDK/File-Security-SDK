@@ -13,7 +13,7 @@
 
 //Purchase a license key with the link: http://www.EaseFilter.com/Order.htm
 //Email us to request a trial key: info@EaseFilter.com //free email is not accepted.
-#define	registerKey "*****************************************"
+#define	registerKey "**************************************"
 
 #define MESSAGE_SEND_VERIFICATION_NUMBER	0xFF000001
 #define	INET_ADDR_STR_LEN					22
@@ -196,7 +196,7 @@ typedef enum _FilterCommand
 	/// </summary>
 	FILTER_SEND_PROCESS_CREATION_INFO = 0x00010008,
 	/// <summary>
-	/// send the process termination ifnormation
+	/// send the process termination information
 	/// </summary>
 	FILTER_SEND_PROCESS_TERMINATION_INFO = 0x00010009,
 	/// <summary>
@@ -204,7 +204,7 @@ typedef enum _FilterCommand
 	/// </summary>
 	FILTER_SEND_THREAD_CREATION_INFO = 0x0001000a,
 	/// <summary>
-	/// send the thread termination ifnormation
+	/// send the thread termination information
 	/// </summary>
 	FILTER_SEND_THREAD_TERMINATION_INFO = 0x0001000b,
 	/// <summary>
@@ -212,7 +212,7 @@ typedef enum _FilterCommand
 	/// </summary>
 	FILTER_SEND_PROCESS_HANDLE_INFO = 0x0001000c,
 	/// <summary>
-	/// send the thread handle operations ifnormation
+	/// send the thread handle operations information
 	/// </summary>
 	FILTER_SEND_THREAD_HANDLE_INFO = 0x0001000d,
 	/// <summary>
@@ -519,7 +519,7 @@ typedef enum  _ProcessControlFlag
     /// </summary>
     DENY_NEW_PROCESS_CREATION = 0x00000001,
 	/// <summary>
-    /// send the callback reqeust before the process is going to be terminated.
+    /// send the callback request before the process is going to be terminated.
 	/// you can block the process termination in the callback function.
     /// </summary>
     PROCESS_PRE_TERMINATION_REQUEST = 0x00000002,
@@ -528,7 +528,7 @@ typedef enum  _ProcessControlFlag
     /// </summary>
     PROCESS_CREATION_NOTIFICATION      = 0x00000100,
     /// <summary>
-    ///get a notification when a process was termiated 
+    ///get a notification when a process was terminated 
     /// </summary>
     PROCESS_TERMINATION_NOTIFICATION   = 0x00000200,
     /// <summary>
@@ -541,9 +541,9 @@ typedef enum  _ProcessControlFlag
     /// </summary>
     THREAD_CREATION_NOTIFICATION       = 0x00000800,
     /// <summary>
-    /// get a notification when a thread was termiated 
+    /// get a notification when a thread was terminated 
     /// </summary>
-    THREAD_TERMINIATION_NOTIFICATION   = 0x00001000,
+    THREAD_TERMINATION_NOTIFICATION   = 0x00001000,
     /// <summary>
     /// get a notification for thread handle operations, when a handle for a process
     /// is being created or duplicated.
@@ -815,7 +815,7 @@ typedef enum _AccessFlag
     /// <summary>
     /// Allow the file open to access the file's security information.
     /// </summary>
-    ALLOW_OPEN_WTIH_ACCESS_SYSTEM_SECURITY = 0x00000010,
+    ALLOW_OPEN_WITH_ACCESS_SYSTEM_SECURITY = 0x00000010,
     /// <summary>
     /// Allow the file open for read access.
     /// </summary>
@@ -943,7 +943,7 @@ typedef enum _BooleanConfig
     /// </summary>
     ENABLE_ADD_MESSAGE_TO_FILE = 0x00000010,
     /// <summary>
-    /// the encrypted file's meta data was embeded in the reparse point tag, it is for the previous version 5.0.
+    /// the encrypted file's meta data was embedded in the reparse point tag, it is for the previous version 5.0.
     /// </summary>
     ENCRYPT_FILE_WITH_REPARSE_POINT_TAG = 0x00000020,  
     /// <summary>
@@ -951,7 +951,7 @@ typedef enum _BooleanConfig
     /// </summary>
     REQUEST_ENCRYPT_KEY_AND_IV_FROM_SERVICE = 0x00000040,  
     /// <summary>
-    /// for control filter, if it is enabled, the control filte rulle will be applied in boot time.
+    /// for control filter, if it is enabled, the control filter rule will be applied in boot time.
     /// </summary>
     ENABLE_PROTECTION_IN_BOOT_TIME = 0x00000080,  
     /// <summary>
@@ -963,7 +963,7 @@ typedef enum _BooleanConfig
     /// </summary>
     ENABLE_SEND_DATA_BUFFER = 0x00000200,      
 	/// <summary>
-    /// if it is enabled, it will reopen the file when rehydration of the stub file.
+    /// if it is enabled, it will reopen the file during rehydration of the stub file.
     /// </summary>
     ENABLE_REOPEN_FILE_ON_REHYDRATION = 0x00000400,    
 	/// <summary>
@@ -1016,7 +1016,7 @@ typedef enum _BooleanConfig
 typedef struct _MESSAGE_SEND_DATA 
 {
 	 /// <summary>
-    ///the verification number which verifiys the data structure integerity.
+    ///the verification number which verifies the data structure integerity.
     /// </summary>
     ULONG VerificationNumber;
     /// <summary>
@@ -1622,7 +1622,7 @@ AddUserRightsToFilterRule(WCHAR* filterMask,  WCHAR* userName, ULONG accessFlags
 
 /// <summary>
 /// Get sha256 hash of the file, you need to allocate the 32 bytes array to get the sha256 hash.
-/// hashBytesLength is the input byte array length, and the outpou lenght of the hash.
+/// hashBytesLength is the input byte array length, and the outpout length of the hash.
 /// </summary>
 extern "C" __declspec(dllexport) 
 BOOL
@@ -1897,7 +1897,7 @@ ActivateLicense(
 /// </summary>
 /// <param name="processNameLength">The length of the process name string in bytes</param>
 /// <param name="processName">The process name to be filtered, all processes if it is '*' </param>
-/// <param name="processId">set the processId if you want filter with id instead of the process name</param>
+/// <param name="processId">set the processId if you want to filter by id instead of the process name</param>
 /// <param name="userNameLength">the user name length if you want to filter the user name</param>
 /// <param name="userName">the user name filter mask</param>
 /// <param name="registryKeyNameLength">set the registry key name filter if you want to filter by the key name</param>
@@ -1908,7 +1908,7 @@ ActivateLicense(
 extern "C" __declspec(dllexport) 
 BOOL
 AddRegistryFilterRule(	    
-	ULONG		prcoessNameLength,
+	ULONG		processNameLength,
 	WCHAR*		processName,
 	ULONG		processId, 
 	ULONG		userNameLength,
@@ -1954,7 +1954,7 @@ RemoveRegistryFilterRuleByProcessId(
 extern "C" __declspec(dllexport) 
 BOOL
 RemoveRegistryFilterRuleByProcessName(
-	ULONG		prcoessNameLength,
+	ULONG		processNameLength,
 	WCHAR*		processName );
 
 /// <summary>
@@ -1967,7 +1967,7 @@ RemoveRegistryFilterRuleByProcessName(
 extern "C" __declspec(dllexport) 
 BOOL
 AddProcessFilterRule(	
-	ULONG		prcoessNameMaskLength,
+	ULONG		processNameMaskLength,
 	WCHAR*		processNameMask,
 	ULONG		controlFlag,
 	ULONG		filterRuleId = 0 );
@@ -1975,7 +1975,7 @@ AddProcessFilterRule(
 extern "C" __declspec(dllexport) 
 BOOL
 RemoveProcessFilterRule(
-	ULONG		prcoessNameMaskLength,
+	ULONG		processNameMaskLength,
 	WCHAR*		processNameMask );
 
 /// <summary>
@@ -1989,7 +1989,7 @@ RemoveProcessFilterRule(
 extern "C" __declspec(dllexport) 
 BOOL
 AddFileControlToProcessByName(	
-	ULONG		prcoessNameMaskLength,
+	ULONG		processNameMaskLength,
 	WCHAR*		processNameMask,
 	ULONG		fileNameMaskLength,
 	WCHAR*		fileNameMask,
@@ -2010,7 +2010,7 @@ AddFileControlToProcessByName(
 extern "C" __declspec(dllexport) 
 BOOL
 AddFileCallbackIOToProcessByName(	
-	ULONG		prcoessNameMaskLength,
+	ULONG		processNameMaskLength,
 	WCHAR*		processNameMask,
 	ULONG		fileNameMaskLength,
 	WCHAR*		fileNameMask,
@@ -2023,7 +2023,7 @@ AddFileCallbackIOToProcessByName(
 extern "C" __declspec(dllexport) 
 BOOL
 RemoveFileControlFromProcessByName(	
-	ULONG		prcoessNameMaskLength,
+	ULONG		processNameMaskLength,
 	WCHAR*		processNameMask,
 	ULONG		fileNameMaskLength,
 	WCHAR*		fileNameMask);
@@ -2039,7 +2039,7 @@ RemoveFileControlFromProcessByName(
 extern "C" __declspec(dllexport) 
 BOOL
 AddFileControlToProcessById(	
-	ULONG		prcoessId,
+	ULONG		processId,
 	ULONG		fileNameMaskLength,
 	WCHAR*		fileNameMask,
 	ULONG		AccessFlag );
@@ -2047,7 +2047,7 @@ AddFileControlToProcessById(
 extern "C" __declspec(dllexport) 
 BOOL
 RemoveFileControlFromProcessById(	
-	ULONG		prcoessId,
+	ULONG		processId,
 	ULONG		fileNameMaskLength,
 	WCHAR*		fileNameMask);
 
@@ -2097,5 +2097,26 @@ GetAESIV(
 	LPCTSTR		fileName,
 	PULONG		ivSize,
 	BYTE*		ivBuffer);
+
+extern "C" __declspec(dllexport)
+BOOL
+AddExcludeProcessNameToRegistryFilterRule(WCHAR * processNameFilterMask, WCHAR * registryKeyNameFilterMask, WCHAR * excludeProcessNameFilterMask);
+
+extern "C" __declspec(dllexport)
+BOOL
+AddExcludeUserNameToRegistryFilterRule(WCHAR * processNameFilterMask, WCHAR * registryKeyNameFilterMask, WCHAR * excludeUserName);
+
+extern "C" __declspec(dllexport)
+BOOL
+AddExcludeKeyNameToRegistryFilterRule(WCHAR * processNameFilterMask, WCHAR * registryKeyNameFilterMask, WCHAR * excludeKeyName);
+
+
+extern "C" __declspec(dllexport)
+BOOL
+AddExcludeProcessNameToProcessFilterRule(WCHAR * processNameFilterMask, WCHAR * processName);
+
+extern "C" __declspec(dllexport)
+BOOL
+AddExcludeUserNameToProcessFilterRule(WCHAR * processNameFilterMask, WCHAR * userName);
 
 #endif//__SHARE_TYPE_H__

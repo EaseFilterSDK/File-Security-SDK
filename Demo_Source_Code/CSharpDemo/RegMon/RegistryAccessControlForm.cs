@@ -87,6 +87,10 @@ namespace EaseFilter.CommonObjects
 
             textBox_RegistryKeyNameFilterMask.Text = selectedFilterRule.RegistryKeyNameFilterMask;
 
+            textBox_ExcludeProcessNames.Text = selectedFilterRule.ExcludeProcessNames;
+            textBox_ExcludeUserNames.Text = selectedFilterRule.ExcludeUserNames;
+            textBox_ExcludeKeyNames.Text = selectedFilterRule.ExcludeKeyNames;
+
             textBox_AccessFlags.Text = selectedFilterRule.AccessFlag.ToString();
             textBox_RegistryCallbackClass.Text = selectedFilterRule.RegCallbackClass.ToString();
             checkBox_isExcludeFilter.Checked = selectedFilterRule.IsExcludeFilter;
@@ -132,6 +136,10 @@ namespace EaseFilter.CommonObjects
                 }
 
                 selectedFilterRule.RegistryKeyNameFilterMask = textBox_RegistryKeyNameFilterMask.Text;
+
+                selectedFilterRule.ExcludeProcessNames = textBox_ExcludeProcessNames.Text;
+                selectedFilterRule.ExcludeUserNames = textBox_ExcludeUserNames.Text;
+                selectedFilterRule.ExcludeKeyNames = textBox_ExcludeKeyNames.Text;
 
                 //this is the key of the filter rule for registry filter rule
                 selectedFilterRule.IsExcludeFilter = checkBox_isExcludeFilter.Checked;
@@ -245,5 +253,7 @@ namespace EaseFilter.CommonObjects
             textBox_ProcessId.Text = "0";
             button_SelectProcessId.Enabled = false;
         }
+
+     
     }
 }

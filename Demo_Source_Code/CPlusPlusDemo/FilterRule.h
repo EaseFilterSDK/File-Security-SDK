@@ -28,6 +28,15 @@ static ULONG g_FilterRuleId = 0;
 		/// </summary>
 		std::map<std::wstring, ULONG> FileAccessList;
 
+		/// <summary>
+		/// the exclude processs name filter mask list.
+		/// </summary>
+		std::vector<std::wstring> ExcludeProcessNameList;
+		/// <summary>
+		/// the exclude user name filter mask list.
+		/// </summary>
+		std::vector<std::wstring> ExcludeUserNameList;
+
         ProcessFilterRule(WCHAR* filterMask)
 		{
 			FilterRuleId = ++g_FilterRuleId;
@@ -42,6 +51,33 @@ static ULONG g_FilterRuleId = 0;
 
 			return;
 		}
+
+		bool AddExcludeProcessName(WCHAR* _processName)
+		{
+			if (NULL == _processName)
+			{
+				return false;
+			}
+
+			std::wstring processName(_processName);
+			ExcludeProcessNameList.push_back(processName);
+
+			return true;
+		}
+
+		bool AddExcludeUserName(WCHAR* _userName)
+		{
+			if (NULL == _userName)
+			{
+				return false;
+			}
+
+			std::wstring userName(_userName);
+			ExcludeUserNameList.push_back(userName);
+
+			return true;
+		}
+
  };
 
   class RegistryFilterRule
@@ -79,6 +115,18 @@ static ULONG g_FilterRuleId = 0;
         /// If it is true, the registry access from the matched process or user will be excluded.
         /// </summary>
         BOOL IsExcludeFilter;
+		/// <summary>
+	   /// the exclude processs name filter mask list.
+	   /// </summary>
+		std::vector<std::wstring> ExcludeProcessNameList;
+		/// <summary>
+	   /// the exclude user name filter mask list.
+	   /// </summary>
+		std::vector<std::wstring> ExcludeUserNameList;
+		/// <summary>
+	   /// the exclude key name filter mask list.
+	   /// </summary>
+		std::vector<std::wstring> ExcludeKeyNameList;
 
 		RegistryFilterRule(WCHAR* filterMask)
 		{
@@ -88,6 +136,45 @@ static ULONG g_FilterRuleId = 0;
 			ControlFlag = 0;
 			RegCallbackClass = 0;
 			IsExcludeFilter = FALSE;
+		}
+
+		bool AddExcludeProcessName(WCHAR* _processName)
+		{
+			if (NULL == _processName)
+			{
+				return false;
+			}
+
+			std::wstring processName(_processName);
+			ExcludeProcessNameList.push_back(processName);
+
+			return true;
+		}
+
+		bool AddExcludeUserName(WCHAR* _userName)
+		{
+			if (NULL == _userName)
+			{
+				return false;
+			}
+
+			std::wstring userName(_userName);
+			ExcludeUserNameList.push_back(userName);
+
+			return true;
+		}
+
+		bool AddExcludeKeyName(WCHAR* _keyName)
+		{
+			if (NULL == _keyName)
+			{
+				return false;
+			}
+
+			std::wstring keyName(_keyName);
+			ExcludeUserNameList.push_back(keyName);
+
+			return true;
 		}
   };
 
@@ -139,7 +226,7 @@ public:
     bool IsResident;
 
     /// <summary>
-    /// the bool config setting of the filter, reference FilterAPI.boolConfig
+    /// the bool config setting of the filter, reference FilterAPI.BooleanConfig
     /// </summary>
     ULONG BooleanConfig;
 		
@@ -189,7 +276,7 @@ public:
 	///--------------monitor filter only properties end--------------------------
 		
 	/// <summary>
-    /// Encryption filter only property, if the encryption was enabled, this is the encryption key will be used for the encrytped file.
+    /// Encryption filter only property, if the encryption was enabled, this is the encryption key that will be used for the encrypted file.
     /// </summary>
 	std::vector<BYTE> EncryptionKey;
 

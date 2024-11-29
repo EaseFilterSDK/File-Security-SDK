@@ -38,6 +38,7 @@ namespace FileProtector
     {
         FilterControl filterControl = new FilterControl();
         bool isUnitTestStarted = false;
+        static string binaryPath = GlobalConfig.AssemblyPath;
 
         /// <summary>
         ///  To manage your files, you need to create at least one filter rule, you can have multiple filter rules. 
@@ -45,14 +46,14 @@ namespace FileProtector
         ///  A filter rule can have multiple exclude file masks, multiple include process names and exclude process names, 
         ///  multiple include process Ids and exclude process Ids, multiple include user names and exclude user names. 
         /// </summary>
-        private static string unitTestFolder = "c:\\EaseFilterUnitTest";
-        private static string unitTestFile = "c:\\EaseFilterUnitTest\\unitTestFile.txt";
+        private static string unitTestFolder = Path.Combine(binaryPath, "EaseFilterUnitTest");
+        private static string unitTestFile = unitTestFolder + "\\unitTestFile.txt";
 
         /// <summary>
         /// Test monitor feature with registering the IO events, get notification after the file was closed for the registered IO.
         /// </summary>
-        private static string unitTestMonitorTestFolder = "c:\\EaseFilterUnitTest\\monitorFolder";
-        private static string unitTestMonitorTestFile = "c:\\EaseFilterUnitTest\\monitorFolder\\unitTestMonitorTestFile.txt";
+        private static string unitTestMonitorTestFolder = unitTestFolder + "\\monitorFolder";
+        private static string unitTestMonitorTestFile = unitTestFolder + "\\monitorFolder\\unitTestMonitorTestFile.txt";
         private static bool isTestMonitorFileCreated = false;
         private static bool isTestMonitorFileReanmed = false;
         private static bool isTestMonitorFileDeleted = false;
@@ -68,13 +69,13 @@ namespace FileProtector
         /// Test Control IO feature with callback function, you can allow or block the file access in the callback function based on the 
         /// user and file information, here we demo how to block the new file creation, file rename, file delete IO.
         /// </summary>
-        private static string unitTestCallbackFolder = "c:\\EaseFilterUnitTest\\callbackFolder";
-        private static string unitTestCallbackFile = "c:\\EaseFilterUnitTest\\callbackFolder\\unitTestFile.txt";
+        private static string unitTestCallbackFolder = unitTestFolder + "\\callbackFolder";
+        private static string unitTestCallbackFile = unitTestFolder + "\\callbackFolder\\unitTestFile.txt";
         private static string unitTestCallbackBlockNewFile = unitTestCallbackFolder + "\\blockNewFileCreationFile.txt";
         private static string unitTestCallbackTestReparseFile = unitTestCallbackFolder + "\\reparseTestFile.txt";
         private static string unitTestCallbackReparseTargetFile = unitTestCallbackFolder + "\\reparseTargetFile.txt";
-        private static string unitTestCallbackDeletionPreventionFile = "c:\\EaseFilterUnitTest\\callbackFolder\\deletionPreventionInCallbackUnitTestFile.txt";
-        private static string unitTestCopyAfterDeleteCallbackFile = "c:\\EaseFilterUnitTest\\callbackFolder\\unitTestCopyAfterDeleteCallbackFile.txt";
+        private static string unitTestCallbackDeletionPreventionFile = unitTestFolder + "\\callbackFolder\\deletionPreventionInCallbackUnitTestFile.txt";
+        private static string unitTestCopyAfterDeleteCallbackFile = unitTestFolder + "\\callbackFolder\\unitTestCopyAfterDeleteCallbackFile.txt";
 
 
         /// <summary>
@@ -82,16 +83,16 @@ namespace FileProtector
         /// All IO from the file names which match both include file mask and exclude file mask won't be intercepted by filter driver, 
         /// it meant it will be skipped.
         /// </summary>
-        private static string filterRuleExcludeTestFolder = "c:\\EaseFilterUnitTest\\excludeFolder";
-        private static string excludeFolderTestFile = "c:\\EaseFilterUnitTest\\excludeFolder\\excludeFile.txt";
+        private static string filterRuleExcludeTestFolder = unitTestFolder + "\\excludeFolder";
+        private static string excludeFolderTestFile = unitTestFolder + "\\excludeFolder\\excludeFile.txt";
 
 
         /// <summary>
         /// Set the exclude filter rule, it meant all IO from the excludeFilterRuleTestFolder won't be intercepted by filter driver.
         /// Exclude filter rule is a global setting, exclude filter rule has the highest priority.
         /// </summary>
-        private static string globalExcludeFilterRuleTestFolder = "c:\\EaseFilterUnitTest\\excludeFilterRuleFolder";
-        private static string globalExcludeFilterRuleTestFile = "c:\\EaseFilterUnitTest\\excludeFilterRuleFolder\\excludeFilterRuleTestFile.txt";
+        private static string globalExcludeFilterRuleTestFolder = unitTestFolder + "\\excludeFilterRuleFolder";
+        private static string globalExcludeFilterRuleTestFile = unitTestFolder + "\\excludeFilterRuleFolder\\excludeFilterRuleTestFile.txt";
 
         //Purchase a license key with the link: http://www.easefilter.com/Order.htm
         //Email us to request a trial key: info@easefilter.com //free email is not accepted.
@@ -812,14 +813,16 @@ namespace FileProtector
 
             try
             {
-                filterControl.ClearFilters();                
-                filterControl.AddFilter(folderLockerFilter);
-                filterControl.SendConfigSettingsToFilter(ref lastError);
+                filterControl.ResetConfigData(ref lastError);
 
                 string folderLockerTestFileName = unitTestFolder + "\\folderLockerTestFile.txt";
                 string testContent = "This is folderLockerTestFileName FileName test file.";
 
                 File.AppendAllText(folderLockerTestFileName, testContent);
+
+                filterControl.ClearFilters();                
+                filterControl.AddFilter(folderLockerFilter);
+                filterControl.SendConfigSettingsToFilter(ref lastError);
 
                 string[] txtFileList = Directory.GetFiles(unitTestFolder, "*.txt");
                 if (txtFileList.Length == 0)
@@ -836,8 +839,10 @@ namespace FileProtector
 
                 try
                 {
-                    //read the encrypted file was blocked.
-                    string readContent = File.ReadAllText(folderLockerTestFileName);
+                    string encyrptionTestFileName = unitTestFolder + "\\encryptionTestFile.txt";
+                    File.AppendAllText(encyrptionTestFileName, testContent);
+                    //read the raw encrypted file without authorization.
+                    string readContent = File.ReadAllText(encyrptionTestFileName);
 
                     if (string.Compare(testContent, readContent, false) != 0)
                     {
@@ -849,8 +854,6 @@ namespace FileProtector
                         AppendText("Test read raw encrypted data failed.", Color.Red);
                         return;
                     }
-
-                    return;
 
                 }
                 catch
