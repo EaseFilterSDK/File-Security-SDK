@@ -1,5 +1,11 @@
 # [File security filter driver SDK](https://www.easefilter.com/Forums_Files/Comprehensive-file-security-sdk.htm)
+
+[![Platform](https://img.shields.io/badge/Platform-Windows-blue.svg)]()
+[![Language](https://img.shields.io/badge/Language-C%23%20%7C%20C++%20%7C%20Python%20%7C%20Rust%20%7C%20Java-success.svg)]()
+[![License](https://img.shields.io/badge/License-Commercial-orange.svg)]()
  
+Welcome to the **EaseFilter File Security SDK**. This comprehensive, modular framework enables developers to build enterprise-grade Windows security solutions—such as Anti-Ransomware agents, Zero Trust architectures, and Data Loss Prevention (DLP) systems—without the need to write complex, high-risk kernel-mode C code. 
+
 EaseFilter Comprehensive File Security SDK is a set of file system filter driver software development kit which includes file monitor filter driver, file access control filter driver, transparent file encryption filter driver, process filter driver and registry filter driver. In a single solution, EaseFilter Comprehensive File Security SDK encompasses file security, digital rights management, encryption, file monitoring, file auditing, file tracking, data loss prevention, process monitoring and protection, and system configuration protection. 
 
 ![File protector](https://www.easefilter.com/Images/ControlFilter.png)
@@ -68,6 +74,17 @@ Registry Filter Driver is a kernel-mode driver that filters registry calls, it p
 * [Filter Driver Developer Guide](https://www.easefilter.com/kb/DeveloperGuide.htm)
 * [MiniFilter Filter Driver Framework](https://www.easefilter.com/kb/minifilter-framework.htm)
 * [Isolation Filter Driver](https://www.easefilter.com/kb/Isolation_Filter_Driver.htm)
+
+## License
+
+This repository contains two distinct licensing categories:
+
+1. **Wrapper/Implementation Code (MIT License):** 
+   The source code, scripts, and configuration files provided directly in this repository are licensed under the [MIT License](LICENSE). You are free to modify, distribute, and use this specific integration code.
+
+2. **EaseFilter SDK (Commercial License):**
+   This project requires the EaseFilter SDK (including its binaries, filter drivers, and core libraries) to function. The EaseFilter SDK is **proprietary commercial software** and is strictly excluded from the MIT License.   
+   To use the EaseFilter SDK for commercial purposes or in a production environment, you must obtain a valid commercial license directly from [EaseFilter](https://www.easefilter.com/license.pdf).
 
 ## Support
 If you have questions or need help, please contact support@easefilter.com 
